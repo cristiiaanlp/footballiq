@@ -11,10 +11,14 @@ interface GameState extends GameSnapshot {
   completedModuleIds: string[];
   completedQuizIds: string[];
   isPremium: boolean;
+  dailyXp: number;
+  dailyXpDay: string | null;
+  lastModuleSlug: string | null;
   // derived helper
   snapshot: () => GameSnapshot;
   // actions
   setPremium: (value: boolean) => void;
+  setLastModule: (slug: string) => void;
   addXp: (amount: number) => void;
   recordQuiz: (quizId: string, perfect: boolean) => void;
   recordScenario: () => void;
@@ -29,6 +33,9 @@ const initial: GameSnapshot & {
   completedModuleIds: string[];
   completedQuizIds: string[];
   isPremium: boolean;
+  dailyXp: number;
+  dailyXpDay: string | null;
+  lastModuleSlug: string | null;
 } = {
   xp: 0,
   level: 1,
@@ -42,6 +49,9 @@ const initial: GameSnapshot & {
   completedModuleIds: [],
   completedQuizIds: [],
   isPremium: false,
+  dailyXp: 0,
+  dailyXpDay: null,
+  lastModuleSlug: null,
 };
 
 export const useGameStore = create<GameState>()(
@@ -65,10 +75,19 @@ export const useGameStore = create<GameState>()(
 
       setPremium: (value) => set({ isPremium: value }),
 
+      setLastModule: (slug) => set({ lastModuleSlug: slug }),
+
       addXp: (amount) =>
         set((s) => {
           const xp = s.xp + amount;
-          return { xp, level: levelFromXp(xp) };
+          const today = todayKey();
+          const sameDay = s.dailyXpDay === today;
+          return {
+            xp,
+            level: levelFromXp(xp),
+            dailyXp: (sameDay ? s.dailyXp : 0) + amount,
+            dailyXpDay: today,
+          };
         }),
 
       recordQuiz: (quizId, perfect) =>

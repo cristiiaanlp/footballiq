@@ -9,6 +9,7 @@ import { MobileHeader } from "@/components/layout/MobileHeader";
 import { LevelUpCelebration } from "@/components/layout/LevelUpCelebration";
 import { CheckoutReturn } from "@/components/layout/CheckoutReturn";
 import { ProgressSync } from "@/services/progressSync";
+import { TacticsSync } from "@/services/tacticsSync";
 import { FullScreenLoader } from "@/components/ui/Spinner";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -34,6 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
       <LevelUpCelebration />
       <ProgressSync />
+      <TacticsSync />
       <CheckoutReturn />
     </div>
   );

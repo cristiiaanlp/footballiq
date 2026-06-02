@@ -15,7 +15,9 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/scenarios", label: "Escenarios", icon: "GitBranch", short: "Escenas" },
   { href: "/academy", label: "Academia", icon: "GraduationCap", short: "Aprende" },
   { href: "/daily", label: "Reto diario", icon: "Flame", short: "Diario", badge: "daily" },
+  { href: "/leaderboard", label: "Ranking", icon: "Trophy", short: "Ranking" },
   { href: "/formations", label: "Formaciones", icon: "LayoutGrid", short: "Formac." },
+  { href: "/stats", label: "Estadísticas", icon: "BarChart3", short: "Stats" },
   { href: "/profile", label: "Perfil", icon: "User", short: "Tú" },
 ];
 
@@ -30,10 +32,15 @@ export const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
   },
   {
     title: "Juega",
-    items: [byHref["/quizzes"], byHref["/scenarios"], byHref["/daily"]],
+    items: [
+      byHref["/quizzes"],
+      byHref["/scenarios"],
+      byHref["/daily"],
+      byHref["/leaderboard"],
+    ],
   },
   { title: "Aprende", items: [byHref["/academy"]] },
-  { title: "Tú", items: [byHref["/profile"]] },
+  { title: "Tú", items: [byHref["/stats"], byHref["/profile"]] },
 ];
 
 /** Items shown in the mobile bottom bar (Tactic Lab is the center FAB). */

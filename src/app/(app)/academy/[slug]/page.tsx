@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
@@ -29,6 +29,11 @@ export default function ModulePage({
   const addXp = useGameStore((s) => s.addXp);
   const touchStreak = useGameStore((s) => s.touchStreak);
   const setPremium = useGameStore((s) => s.setPremium);
+  const setLastModule = useGameStore((s) => s.setLastModule);
+
+  useEffect(() => {
+    if (mod) setLastModule(slug);
+  }, [slug, mod, setLastModule]);
 
   const [done, setDone] = useState(completed.includes(slug));
   const [showExam, setShowExam] = useState(false);

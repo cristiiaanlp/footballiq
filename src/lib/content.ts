@@ -27,6 +27,11 @@ export const RUNNER_INDEX: Record<string, RunnerItem> = Object.fromEntries(
 
 export const ALL_RUNNER_IDS = RUNNER_ITEMS.map((i) => i.id);
 
+/** Map each quiz id → its tactical category (for per-theme stats). */
+export const QUIZ_CATEGORY_BY_ID: Record<string, string> = Object.fromEntries(
+  QUIZZES.map((q) => [q.id, q.category])
+);
+
 /** Deterministic shuffle using a numeric seed (no Math.random for stability). */
 export function shuffleSeeded<T>(arr: T[], seed: number): T[] {
   const a = [...arr];

@@ -1,5 +1,6 @@
 import {
   ArrowUpFromLine,
+  BarChart3,
   Brain,
   Eye,
   Flag,
@@ -26,6 +27,7 @@ import {
 /** Named icon registry so data files can reference icons by string. */
 const REGISTRY: Record<string, LucideIcon> = {
   ArrowUpFromLine,
+  BarChart3,
   Brain,
   Eye,
   Flag,

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { useGameStore } from "@/stores/gameStore";
 import { useReviewStore } from "@/stores/reviewStore";
+import { useStatsStore } from "@/stores/statsStore";
 import { playSound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import type { AnswerOption, SceneSnapshot } from "@/types";
@@ -38,6 +39,7 @@ export function QuizRunner({
   const recordScenario = useGameStore((s) => s.recordScenario);
   const touchStreak = useGameStore((s) => s.touchStreak);
   const recordReview = useReviewStore((s) => s.record);
+  const recordStat = useStatsStore((s) => s.recordByQuizId);
 
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
@@ -56,6 +58,7 @@ export function QuizRunner({
     setPicked(opt.id);
     touchStreak();
     recordReview(item.id, opt.correct);
+    recordStat(item.id, opt.correct);
     playSound(opt.correct ? "correct" : "wrong");
     if (opt.correct) {
       setCorrectCount((c) => c + 1);
