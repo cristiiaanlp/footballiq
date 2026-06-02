@@ -19,6 +19,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/formations", label: "Formaciones", icon: "LayoutGrid", short: "Formac." },
   { href: "/stats", label: "Estadísticas", icon: "BarChart3", short: "Stats" },
   { href: "/profile", label: "Perfil", icon: "User", short: "Tú" },
+  { href: "/settings", label: "Ajustes", icon: "Settings", short: "Ajustes" },
 ];
 
 const byHref = Object.fromEntries(NAV_ITEMS.map((i) => [i.href, i]));
@@ -40,7 +41,7 @@ export const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
     ],
   },
   { title: "Aprende", items: [byHref["/academy"]] },
-  { title: "Tú", items: [byHref["/stats"], byHref["/profile"]] },
+  { title: "Tú", items: [byHref["/stats"], byHref["/profile"], byHref["/settings"]] },
 ];
 
 /** Items shown in the mobile bottom bar (Tactic Lab is the center FAB). */

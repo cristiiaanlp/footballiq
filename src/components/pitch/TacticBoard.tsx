@@ -20,6 +20,7 @@ import {
   Redo2,
   RotateCcw,
   Save,
+  Share2,
   Sparkles,
   Square,
   Trash2,
@@ -429,6 +430,39 @@ export function TacticBoard({ initial }: { initial?: SavedTactic }) {
       link.download = `${(draftName || formation).replace(/\s+/g, "-")}.png`;
       link.href = dataUrl;
       link.click();
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const shareImage = async () => {
+    if (!boardRef.current) return;
+    try {
+      const dataUrl = await toPng(boardRef.current, {
+        pixelRatio: 2,
+        backgroundColor: "#0B0F17",
+      });
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File(
+        [blob],
+        `${(draftName || formation).replace(/\s+/g, "-")}.png`,
+        { type: "image/png" }
+      );
+      const nav = navigator as Navigator & {
+        canShare?: (d: { files: File[] }) => boolean;
+      };
+      if (nav.canShare?.({ files: [file] }) && nav.share) {
+        await nav.share({
+          files: [file],
+          title: draftName || "Mi táctica",
+          text: "Mira mi táctica en Football IQ ⚽",
+        });
+      } else {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = file.name;
+        a.click();
+      }
     } catch {
       /* ignore */
     }
@@ -926,6 +960,9 @@ export function TacticBoard({ initial }: { initial?: SavedTactic }) {
             <p className="text-center text-[11px] text-muted">
               PNG = foto fija · GIF = jugada animada (2+ pasos)
             </p>
+            <Button variant="secondary" size="sm" onClick={shareImage}>
+              <Share2 className="h-4 w-4" /> Compartir
+            </Button>
             <div className="grid grid-cols-2 gap-2">
               <Button variant="ghost" size="sm" onClick={resetBoard}>
                 <RotateCcw className="h-4 w-4" /> Reset

@@ -23,6 +23,8 @@ interface AuthContextValue {
   demoMode: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (name: string, email: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
+  updateName: (name: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -138,6 +140,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const signInWithGoogle = useCallback(async () => {
+    const supabase = getSupabase();
+    if (!supabase)
+      throw new Error("El login con Google requiere Supabase configurado.");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/dashboard` },
+    });
+    if (error) throw new Error(error.message);
+  }, []);
+
+  const updateName = useCallback(
+    async (name: string) => {
+      const trimmed = name.trim();
+      if (!trimmed) throw new Error("El nombre no puede estar vacío.");
+      const supabase = getSupabase();
+      if (supabase) {
+        const { error } = await supabase.auth.updateUser({ data: { name: trimmed } });
+        if (error) throw new Error(error.message);
+      } else {
+        try {
+          const raw = localStorage.getItem(DEMO_KEY);
+          if (raw) {
+            const u = JSON.parse(raw);
+            localStorage.setItem(DEMO_KEY, JSON.stringify({ ...u, name: trimmed }));
+          }
+        } catch {
+          /* ignore */
+        }
+      }
+      setUser((u) => (u ? { ...u, name: trimmed } : u));
+    },
+    []
+  );
+
   const signOut = useCallback(async () => {
     const supabase = getSupabase();
     if (supabase) await supabase.auth.signOut();
@@ -152,9 +189,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       demoMode: !isSupabaseEnabled,
       signIn,
       signUp,
+      signInWithGoogle,
+      updateName,
       signOut,
     }),
-    [user, loading, signIn, signUp, signOut]
+    [user, loading, signIn, signUp, signInWithGoogle, updateName, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/hooks/useAuth";
+import { Providers } from "@/components/Providers";
 import { ServiceWorker } from "@/components/layout/ServiceWorker";
 
 const inter = Inter({
@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen font-sans">
-        <AuthProvider>{children}</AuthProvider>
+        <Providers>{children}</Providers>
         <ServiceWorker />
       </body>
     </html>

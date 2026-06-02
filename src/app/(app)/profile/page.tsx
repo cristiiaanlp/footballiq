@@ -1,7 +1,10 @@
 "use client";
 
+import { useRef } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { LogOut, RotateCcw, Sparkles, Target, Volume2, VolumeX } from "lucide-react";
+import { Settings, Share2, Sparkles, Target } from "lucide-react";
+import { toPng } from "html-to-image";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -11,8 +14,7 @@ import { Icon } from "@/components/ui/Icon";
 import { useAuth } from "@/hooks/useAuth";
 import { useGameStore } from "@/stores/gameStore";
 import { useSettingsStore } from "@/stores/settingsStore";
-import { playSound } from "@/lib/sound";
-import { upgradeToPremium } from "@/lib/checkout";
+import { toast } from "@/stores/toastStore";
 import {
   ACHIEVEMENTS,
   RANKS,
@@ -22,11 +24,11 @@ import {
 } from "@/lib/ranks";
 
 export default function ProfilePage() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const store = useGameStore();
   const snapshot = useGameStore((s) => s.snapshot());
-  const soundEnabled = useSettingsStore((s) => s.soundEnabled);
-  const toggleSound = useSettingsStore((s) => s.toggleSound);
+  const avatar = useSettingsStore((s) => s.avatar);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const { level, current, needed, pct } = levelProgress(store.xp);
   const rank = rankForLevel(level);
@@ -37,12 +39,54 @@ export default function ProfilePage() {
       ? Math.round((snapshot.perfectQuizzes / snapshot.quizzesCompleted) * 100)
       : 0;
 
+  const share = async () => {
+    if (!cardRef.current) return;
+    try {
+      const dataUrl = await toPng(cardRef.current, {
+        pixelRatio: 2,
+        backgroundColor: "#0B0F17",
+      });
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], "football-iq-coach.png", { type: "image/png" });
+      const nav = navigator as Navigator & {
+        canShare?: (d: { files: File[] }) => boolean;
+      };
+      if (nav.canShare?.({ files: [file] }) && nav.share) {
+        await nav.share({
+          files: [file],
+          title: "Mi tarjeta de coach",
+          text: `Soy ${rank.name} (nivel ${level}) en Football IQ ⚽`,
+        });
+      } else {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = "football-iq-coach.png";
+        a.click();
+        toast("Tarjeta descargada");
+      }
+    } catch {
+      toast("No se pudo compartir", "error");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
         badge={<Badge tone="gold">Coach Mode</Badge>}
         title="Tu perfil"
         subtitle="Tu progreso, rango y logros como entrenador."
+        action={
+          <div className="flex gap-2">
+            <Button variant="secondary" size="sm" onClick={share}>
+              <Share2 className="h-4 w-4" /> Compartir
+            </Button>
+            <Link href="/settings">
+              <Button variant="ghost" size="sm">
+                <Settings className="h-4 w-4" /> Ajustes
+              </Button>
+            </Link>
+          </div>
+        }
       />
 
       {/* Hero card */}
@@ -53,16 +97,14 @@ export default function ProfilePage() {
       >
         <div
           className="pointer-events-none absolute inset-0 -z-10 opacity-30"
-          style={{
-            background: `radial-gradient(circle at 20% 0%, ${rank.accent}55, transparent 55%)`,
-          }}
+          style={{ background: `radial-gradient(circle at 20% 0%, ${rank.accent}55, transparent 55%)` }}
         />
         <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left">
           <div
             className="flex h-24 w-24 items-center justify-center rounded-3xl text-5xl"
             style={{ background: `${rank.accent}22`, boxShadow: `0 0 32px -8px ${rank.accent}` }}
           >
-            {rank.badge}
+            {avatar}
           </div>
           <div className="flex-1">
             <h2 className="text-2xl font-extrabold">{user?.name}</h2>
@@ -81,11 +123,7 @@ export default function ProfilePage() {
             <div className="mt-3">
               <div className="mb-1 flex justify-between text-xs text-muted">
                 <span>{store.xp.toLocaleString()} XP total</span>
-                {next && (
-                  <span>
-                    {needed - current} XP → {next.name}
-                  </span>
-                )}
+                {next && <span>{needed - current} XP → {next.name}</span>}
               </div>
               <ProgressBar value={pct} accent="gold" />
             </div>
@@ -117,11 +155,7 @@ export default function ProfilePage() {
               <div
                 key={r.name}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all ${
-                  isCurrent
-                    ? "bg-white/[0.06] ring-1"
-                    : reached
-                      ? "bg-white/[0.02]"
-                      : "opacity-40"
+                  isCurrent ? "bg-white/[0.06] ring-1" : reached ? "bg-white/[0.02]" : "opacity-40"
                 }`}
                 style={isCurrent ? { boxShadow: `inset 0 0 0 1px ${r.accent}66` } : undefined}
               >
@@ -168,95 +202,64 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Settings */}
-      <Card>
-        <h2 className="mb-3 font-bold">Ajustes</h2>
-        <button
-          onClick={() => {
-            toggleSound();
-            if (!soundEnabled) playSound("click");
-          }}
-          className="flex w-full items-center justify-between rounded-xl bg-white/[0.03] px-4 py-3 transition-colors hover:bg-white/[0.06]"
+      {/* Hidden shareable coach card */}
+      <div className="pointer-events-none fixed left-[-9999px] top-0">
+        <div
+          ref={cardRef}
+          style={{ width: 600, height: 320 }}
+          className="relative overflow-hidden bg-ink-900 p-8"
         >
-          <span className="flex items-center gap-2 text-sm font-medium">
-            {soundEnabled ? (
-              <Volume2 className="h-5 w-5 text-pitch" />
-            ) : (
-              <VolumeX className="h-5 w-5 text-muted" />
-            )}
-            Sonidos
-          </span>
-          <span
-            className={`relative h-6 w-11 rounded-full transition-colors ${
-              soundEnabled ? "bg-pitch" : "bg-white/15"
-            }`}
-          >
-            <span
-              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-all ${
-                soundEnabled ? "left-[22px]" : "left-0.5"
-              }`}
-            />
-          </span>
-        </button>
-      </Card>
-
-      {/* Premium + account */}
-      <Card>
-        <h2 className="mb-1 font-bold">
-          {store.isPremium ? "Football IQ Premium" : "Pásate a Premium"}
-        </h2>
-        <p className="mb-4 text-sm text-muted">
-          {store.isPremium
-            ? "Tienes acceso completo: Academy completa, tácticas y escenarios ilimitados."
-            : "Academy completa, tácticas ilimitadas, más escenarios y análisis avanzados."}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {store.isPremium ? (
-            <Button variant="secondary" size="sm" onClick={() => store.setPremium(false)}>
-              Desactivar (demo)
-            </Button>
-          ) : (
-            <Button
-              variant="gold"
-              size="sm"
-              onClick={() => upgradeToPremium(() => store.setPremium(true))}
-            >
-              <Sparkles className="h-4 w-4" /> Hazte Premium
-            </Button>
-          )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              if (confirm("¿Reiniciar todo tu progreso?")) store.reset();
-            }}
-          >
-            <RotateCcw className="h-4 w-4" /> Reiniciar progreso
-          </Button>
-          <Button variant="ghost" size="sm" onClick={signOut}>
-            <LogOut className="h-4 w-4" /> Cerrar sesión
-          </Button>
+          <div
+            className="absolute inset-0 opacity-40"
+            style={{ background: `radial-gradient(circle at 80% 0%, ${rank.accent}66, transparent 60%)` }}
+          />
+          <div className="relative flex h-full flex-col justify-between">
+            <div className="flex items-center justify-between">
+              <span className="text-xl font-extrabold tracking-tight text-chalk">
+                Football<span className="text-pitch">IQ</span>
+              </span>
+              <span className="rounded-full px-3 py-1 text-sm font-bold" style={{ background: `${rank.accent}22`, color: rank.accent }}>
+                {rank.badge} {rank.name}
+              </span>
+            </div>
+            <div className="flex items-center gap-5">
+              <div className="flex h-24 w-24 items-center justify-center rounded-3xl text-6xl" style={{ background: `${rank.accent}22` }}>
+                {avatar}
+              </div>
+              <div>
+                <p className="text-3xl font-extrabold text-chalk">{user?.name}</p>
+                <p className="text-lg font-bold text-gold">Nivel {level} · {store.xp.toLocaleString()} XP</p>
+              </div>
+            </div>
+            <div className="flex gap-6 text-chalk">
+              <CardStat label="Racha" value={`${snapshot.streak}🔥`} />
+              <CardStat label="Precisión" value={`${accuracy}%`} />
+              <CardStat label="Quizzes" value={`${snapshot.quizzesCompleted}`} />
+              <CardStat label="Tácticas" value={`${snapshot.tacticsSaved}`} />
+            </div>
+          </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }
 
-function Stat({
-  label,
-  value,
-  suffix = "",
-}: {
-  label: string;
-  value: number;
-  suffix?: string;
-}) {
+function Stat({ label, value, suffix = "" }: { label: string; value: number; suffix?: string }) {
   return (
     <div className="card p-4 text-center">
       <p className="text-xl font-extrabold text-chalk">
         {value.toLocaleString()}
         {suffix}
       </p>
+      <p className="text-xs text-muted">{label}</p>
+    </div>
+  );
+}
+
+function CardStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-2xl font-extrabold">{value}</p>
       <p className="text-xs text-muted">{label}</p>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useGameStore } from "@/stores/gameStore";
 import { playSound } from "@/lib/sound";
+import { toast } from "@/stores/toastStore";
 
 /**
  * Detects the `?checkout=success` redirect from Stripe and unlocks Premium.
@@ -18,6 +19,7 @@ export function CheckoutReturn() {
     if (params.get("checkout") === "success") {
       setPremium(true);
       playSound("levelup");
+      toast("¡Premium activado! 🎉");
       window.history.replaceState({}, "", window.location.pathname);
     }
   }, [setPremium]);

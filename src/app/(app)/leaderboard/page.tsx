@@ -6,6 +6,7 @@ import { Crown, Trophy } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { useAuth } from "@/hooks/useAuth";
 import { useGameStore } from "@/stores/gameStore";
 import { getSupabase, isSupabaseEnabled } from "@/lib/supabase";
@@ -62,6 +63,7 @@ export default function LeaderboardPage() {
   const podium = board.slice(0, 3);
   const rest = board.slice(3);
   const myRank = board.findIndex((r) => r.you) + 1;
+  const loading = isSupabaseEnabled && remote === null;
 
   return (
     <div>
@@ -73,9 +75,22 @@ export default function LeaderboardPage() {
             ? "Clasificación global por XP. ¡Sigue entrenando para subir!"
             : "Demo local. Conecta Supabase para el ranking global real."
         }
-        action={<Badge tone="pitch">Tu posición · #{myRank}</Badge>}
+        action={!loading && <Badge tone="pitch">Tu posición · #{myRank}</Badge>}
       />
 
+      {loading ? (
+        <div className="flex flex-col gap-2">
+          <div className="mb-4 grid grid-cols-3 items-end gap-3">
+            <Skeleton className="h-24" />
+            <Skeleton className="h-32" />
+            <Skeleton className="h-20" />
+          </div>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-11" />
+          ))}
+        </div>
+      ) : (
+        <>
       {/* Podium */}
       <div className="mb-6 grid grid-cols-3 items-end gap-3">
         {[1, 0, 2].map((idx) => {
@@ -143,6 +158,8 @@ export default function LeaderboardPage() {
           <Crown className="mr-1 inline h-3.5 w-3.5 text-gold" />
           Gana XP para escalar posiciones.
         </p>
+      )}
+        </>
       )}
     </div>
   );
