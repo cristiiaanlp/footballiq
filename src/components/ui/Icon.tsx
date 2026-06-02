@@ -1,6 +1,7 @@
 import {
   ArrowUpFromLine,
   BarChart3,
+  BookOpen,
   Brain,
   Eye,
   Flag,
@@ -19,6 +20,7 @@ import {
   Settings,
   Shuffle,
   Spline,
+  Swords,
   Trophy,
   User,
   Zap,
@@ -29,6 +31,7 @@ import {
 const REGISTRY: Record<string, LucideIcon> = {
   ArrowUpFromLine,
   BarChart3,
+  BookOpen,
   Brain,
   Eye,
   Flag,
@@ -47,6 +50,7 @@ const REGISTRY: Record<string, LucideIcon> = {
   Settings,
   Shuffle,
   Spline,
+  Swords,
   Trophy,
   User,
   Zap,

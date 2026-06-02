@@ -15,8 +15,10 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/scenarios", label: "Escenarios", icon: "GitBranch", short: "Escenas" },
   { href: "/academy", label: "Academia", icon: "GraduationCap", short: "Aprende" },
   { href: "/daily", label: "Reto diario", icon: "Flame", short: "Diario", badge: "daily" },
+  { href: "/duel", label: "Duelo 1v1", icon: "Swords", short: "Duelo" },
   { href: "/leaderboard", label: "Ranking", icon: "Trophy", short: "Ranking" },
   { href: "/formations", label: "Formaciones", icon: "LayoutGrid", short: "Formac." },
+  { href: "/glossary", label: "Glosario", icon: "BookOpen", short: "Glosario" },
   { href: "/stats", label: "Estadísticas", icon: "BarChart3", short: "Stats" },
   { href: "/profile", label: "Perfil", icon: "User", short: "Tú" },
   { href: "/settings", label: "Ajustes", icon: "Settings", short: "Ajustes" },
@@ -37,10 +39,11 @@ export const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
       byHref["/quizzes"],
       byHref["/scenarios"],
       byHref["/daily"],
+      byHref["/duel"],
       byHref["/leaderboard"],
     ],
   },
-  { title: "Aprende", items: [byHref["/academy"]] },
+  { title: "Aprende", items: [byHref["/academy"], byHref["/glossary"]] },
   { title: "Tú", items: [byHref["/stats"], byHref["/profile"], byHref["/settings"]] },
 ];
 

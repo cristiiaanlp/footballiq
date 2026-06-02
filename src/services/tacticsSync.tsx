@@ -10,7 +10,11 @@ type Row = {
   user_id: string;
   name: string;
   formation: string;
-  data: Omit<SavedTactic, "id" | "name" | "formation" | "createdAt" | "updatedAt">;
+  data: Omit<
+    SavedTactic,
+    "id" | "name" | "formation" | "createdAt" | "updatedAt" | "isPublic"
+  >;
+  is_public: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -30,6 +34,7 @@ function toRow(t: SavedTactic, userId: string): Row {
       homeColor: t.homeColor,
       awayColor: t.awayColor,
     },
+    is_public: t.isPublic ?? false,
     created_at: t.createdAt,
     updated_at: t.updatedAt,
   };
@@ -47,6 +52,7 @@ function fromRow(r: Row): SavedTactic {
     ball: r.data?.ball,
     homeColor: r.data?.homeColor,
     awayColor: r.data?.awayColor,
+    isPublic: r.is_public ?? false,
     createdAt: r.created_at,
     updatedAt: r.updated_at,
   };

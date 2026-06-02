@@ -50,6 +50,12 @@ create policy "tactics_all_own"
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+-- Compartir tácticas con enlace público
+alter table public.tactics add column if not exists is_public boolean not null default false;
+drop policy if exists "tactics_public_select" on public.tactics;
+create policy "tactics_public_select"
+  on public.tactics for select using (is_public);
+
 -- ──────────────────────────────────────────────────────────────────
 -- Leaderboard global (solo nombre + xp + nivel, nada sensible)
 -- Función RPC con security definer para exponer el top sin filtrar RLS.

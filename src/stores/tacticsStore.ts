@@ -21,6 +21,7 @@ export interface SavedTactic {
   ball?: Vec2;
   homeColor?: string;
   awayColor?: string;
+  isPublic?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -42,6 +43,7 @@ interface TacticsState {
   upsert: (draft: TacticDraft) => string;
   remove: (id: string) => void;
   rename: (id: string, name: string) => void;
+  setPublic: (id: string, value: boolean) => void;
   get: (id: string) => SavedTactic | undefined;
 }
 
@@ -88,6 +90,15 @@ export const useTacticsStore = create<TacticsState>()(
         set((s) => ({
           tactics: s.tactics.map((t) =>
             t.id === id ? { ...t, name, updatedAt: new Date().toISOString() } : t
+          ),
+        })),
+
+      setPublic: (id, value) =>
+        set((s) => ({
+          tactics: s.tactics.map((t) =>
+            t.id === id
+              ? { ...t, isPublic: value, updatedAt: new Date().toISOString() }
+              : t
           ),
         })),
 

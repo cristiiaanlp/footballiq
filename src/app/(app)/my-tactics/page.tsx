@@ -3,13 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Library, Pencil, PenTool, Play, Plus, Trash2 } from "lucide-react";
+import { Library, Pencil, PenTool, Play, Plus, Share2, Trash2 } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { SceneView } from "@/components/pitch/SceneView";
 import { useTacticsStore, type SavedTactic } from "@/stores/tacticsStore";
+import { isSupabaseEnabled } from "@/lib/supabase";
+import { toast } from "@/stores/toastStore";
 import type { SceneSnapshot } from "@/types";
 
 function toScene(t: SavedTactic): SceneSnapshot {
@@ -27,6 +29,34 @@ export default function MyTacticsPage() {
   const tactics = useTacticsStore((s) => s.tactics);
   const remove = useTacticsStore((s) => s.remove);
   const rename = useTacticsStore((s) => s.rename);
+  const setPublic = useTacticsStore((s) => s.setPublic);
+
+  const shareLink = async (t: SavedTactic) => {
+    if (!isSupabaseEnabled) {
+      toast("Inicia sesión para compartir enlaces", "info");
+      return;
+    }
+    setPublic(t.id, true);
+    const url = `${window.location.origin}/t/${t.id}`;
+    try {
+      const nav = navigator as Navigator & {
+        canShare?: (d: { url: string }) => boolean;
+      };
+      if (nav.share) {
+        await nav.share({ title: t.name, text: "Mira mi táctica en Football IQ ⚽", url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast("¡Enlace copiado! Ya es pública.");
+      }
+    } catch {
+      try {
+        await navigator.clipboard.writeText(url);
+        toast("¡Enlace copiado!");
+      } catch {
+        toast("Táctica pública: " + url, "info");
+      }
+    }
+  };
 
   const [renaming, setRenaming] = useState<SavedTactic | null>(null);
   const [renameValue, setRenameValue] = useState("");
@@ -108,28 +138,32 @@ export default function MyTacticsPage() {
                 <Badge tone="gold">{t.formation}</Badge>
               </div>
 
-              <div className="mt-3 grid grid-cols-3 gap-2">
-                <Link href={`/tactic-lab?load=${t.id}`} className="col-span-1">
+              <div className="mt-3 flex flex-col gap-2">
+                <Link href={`/tactic-lab?load=${t.id}`}>
                   <Button size="sm" className="w-full">
                     Abrir
                   </Button>
                 </Link>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => startRename(t)}
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    if (confirm(`¿Borrar "${t.name}"?`)) remove(t.id);
-                  }}
-                >
-                  <Trash2 className="h-4 w-4 text-danger" />
-                </Button>
+                <div className="grid grid-cols-3 gap-2">
+                  <Button variant="secondary" size="sm" onClick={() => shareLink(t)}>
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                  <Button variant="secondary" size="sm" onClick={() => startRename(t)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      if (confirm(`¿Borrar "${t.name}"?`)) remove(t.id);
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4 text-danger" />
+                  </Button>
+                </div>
+                {t.isPublic && (
+                  <span className="text-center text-[10px] text-pitch">● Pública</span>
+                )}
               </div>
             </motion.div>
           ))}
