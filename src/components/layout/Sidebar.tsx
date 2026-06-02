@@ -3,42 +3,62 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut } from "lucide-react";
-import { NAV_ITEMS } from "@/lib/nav";
-import { Brand } from "./Brand";
+import { NAV_SECTIONS, type NavItem } from "@/lib/nav";
 import { Icon } from "@/components/ui/Icon";
+import { Brand } from "./Brand";
 import { CoachStatus } from "./CoachStatus";
+import { NavBadge } from "./NavBadge";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavBadges } from "@/hooks/useNavBadges";
+import { playSound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
+  const badges = useNavBadges();
+
+  const isActive = (item: NavItem) =>
+    pathname === item.href || pathname.startsWith(item.href + "/");
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-64 flex-shrink-0 flex-col gap-2 border-r border-white/5 bg-ink-900/60 p-4 backdrop-blur-xl lg:flex">
+    <aside className="sticky top-0 hidden h-screen w-64 flex-shrink-0 flex-col gap-2 overflow-y-auto border-r border-white/5 bg-ink-900/60 p-4 backdrop-blur-xl lg:flex">
       <Brand href="/dashboard" size={38} className="mb-2 px-2 py-1" />
 
       <CoachStatus />
 
-      <nav className="mt-2 flex flex-1 flex-col gap-1">
-        {NAV_ITEMS.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(item.href + "/");
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
-                active
-                  ? "bg-pitch/15 text-pitch-light shadow-glow"
-                  : "text-haze hover:bg-white/5 hover:text-chalk"
-              )}
-            >
-              <Icon name={item.icon} className="h-5 w-5" />
-              {item.label}
-            </Link>
-          );
-        })}
+      <nav className="mt-2 flex flex-1 flex-col gap-4">
+        {NAV_SECTIONS.map((section, i) => (
+          <div key={i}>
+            {section.title && (
+              <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-widest text-muted/70">
+                {section.title}
+              </p>
+            )}
+            <div className="flex flex-col gap-1">
+              {section.items.map((item) => {
+                const active = isActive(item);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => playSound("click")}
+                    className={cn(
+                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
+                      active
+                        ? "bg-pitch/15 text-pitch-light shadow-glow"
+                        : "text-haze hover:bg-white/5 hover:text-chalk"
+                    )}
+                  >
+                    <Icon name={item.icon} className="h-5 w-5" />
+                    <span className="flex-1">{item.label}</span>
+                    <NavBadge item={item} badges={badges} />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       <div className="border-t border-white/5 pt-3">
@@ -49,7 +69,7 @@ export function Sidebar() {
           onClick={signOut}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-danger/10 hover:text-danger"
         >
-          <LogOut className="h-5 w-5" /> Sign out
+          <LogOut className="h-5 w-5" /> Cerrar sesión
         </button>
       </div>
     </aside>
