@@ -29,7 +29,7 @@ export function Hero() {
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-pitch/30 bg-pitch/10 px-3 py-1 text-sm text-pitch-light"
           >
             <Sparkles className="h-4 w-4" />
-            The Chess.com of football
+            Aprende fútbol jugando
           </motion.div>
 
           <motion.h1

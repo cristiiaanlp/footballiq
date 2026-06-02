@@ -32,7 +32,7 @@ export default function ScenariosPage() {
         >
           <ArrowLeft className="h-4 w-4" /> Escenarios
         </Button>
-        <QuizRunner items={items} title="Match Scenarios" kind="scenario" />
+        <QuizRunner items={items} title="Escenarios de partido" kind="scenario" />
       </div>
     );
   }
@@ -42,7 +42,7 @@ export default function ScenariosPage() {
       <PageHeader
         badge={
           <Badge tone="gold">
-            <GitBranch className="h-3.5 w-3.5" /> Match Scenarios
+            <GitBranch className="h-3.5 w-3.5" /> Escenarios
           </Badge>
         }
         title="¿Cuál es la mejor decisión?"

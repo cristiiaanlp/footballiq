@@ -31,7 +31,7 @@ export default function FormationsPage() {
       <PageHeader
         badge={
           <Badge tone="sky">
-            <LayoutGrid className="h-3.5 w-3.5" /> Formation Explorer
+            <LayoutGrid className="h-3.5 w-3.5" /> Formaciones
           </Badge>
         }
         title="Explora las formaciones"

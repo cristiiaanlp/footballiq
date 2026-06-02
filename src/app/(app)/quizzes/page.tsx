@@ -108,7 +108,7 @@ export default function QuizzesPage() {
             </div>
             <div className="flex-1">
               <p className="flex items-center gap-1.5 font-bold">
-                Rapid Fire <Zap className="h-4 w-4 text-gold" />
+                Contrarreloj <Zap className="h-4 w-4 text-gold" />
               </p>
               <p className="text-xs text-muted">60s · combos · máxima rejugabilidad</p>
             </div>

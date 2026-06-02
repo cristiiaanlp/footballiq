@@ -9,7 +9,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Inicio", icon: "LayoutDashboard", short: "Inicio" },
-  { href: "/tactic-lab", label: "Tactic Lab", icon: "PenTool", short: "Lab" },
+  { href: "/tactic-lab", label: "Pizarra Táctica", icon: "PenTool", short: "Pizarra" },
   { href: "/my-tactics", label: "Mis tácticas", icon: "Library", short: "Tácticas" },
   { href: "/quizzes", label: "Quizzes", icon: "Brain", short: "Quiz", badge: "review" },
   { href: "/scenarios", label: "Escenarios", icon: "GitBranch", short: "Escenas" },

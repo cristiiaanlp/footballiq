@@ -18,17 +18,17 @@ const SLIDES: Slide[] = [
   {
     icon: PenTool,
     title: "Diseña y anima jugadas",
-    text: "En el Tactic Lab colocas jugadores, dibujas movimientos y animas la jugada paso a paso.",
+    text: "En la Pizarra Táctica colocas jugadores, dibujas movimientos y animas la jugada paso a paso.",
   },
   {
     icon: Brain,
     title: "Pon a prueba tu IQ",
-    text: "Quizzes por temas, escenarios reales, Rapid Fire y repaso de lo que fallas.",
+    text: "Quizzes por temas, escenarios reales, contrarreloj y repaso de lo que fallas.",
   },
   {
     icon: Trophy,
     title: "Sube de rango",
-    text: "Gana XP, sube de nivel y desbloquea rangos de Rookie Coach a Tactical Master.",
+    text: "Gana XP, sube de nivel y desbloquea rangos de Entrenador Novato a Maestro Táctico.",
   },
 ];
 

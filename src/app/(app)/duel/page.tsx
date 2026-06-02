@@ -83,7 +83,7 @@ export default function DuelPage() {
   const join = (roomCode: string) => {
     const supabase = getSupabase();
     if (!supabase || !roomCode) return;
-    const name = user?.name ?? "Coach";
+    const name = user?.name ?? "Entrenador";
     const channel = supabase.channel(`duel-${roomCode}`, {
       config: { presence: { key: myId.current } },
     });
@@ -141,7 +141,7 @@ export default function DuelPage() {
   const toggleReady = async () => {
     const next = !ready;
     setReady(next);
-    await channelRef.current?.track({ name: user?.name ?? "Coach", ready: next });
+    await channelRef.current?.track({ name: user?.name ?? "Entrenador", ready: next });
   };
 
   const choose = (optId: string, correct: boolean) => {

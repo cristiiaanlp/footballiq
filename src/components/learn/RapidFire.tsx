@@ -110,7 +110,7 @@ export function RapidFire() {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-danger/15 text-3xl">
           ⚡
         </div>
-        <h2 className="text-2xl font-extrabold">Rapid Fire</h2>
+        <h2 className="text-2xl font-extrabold">Contrarreloj</h2>
         <p className="mt-2 text-muted">
           {DURATION} segundos. Responde el máximo de preguntas seguidas. Encadena
           aciertos para multiplicar tu combo.

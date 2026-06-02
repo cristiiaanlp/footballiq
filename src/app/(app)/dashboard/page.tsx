@@ -25,7 +25,7 @@ import { ACHIEVEMENTS } from "@/lib/ranks";
 import { ACADEMY_MAP } from "@/data/academy";
 
 const ACTIONS = [
-  { href: "/tactic-lab", label: "Tactic Lab", desc: "Diseña sistemas", icon: PenTool, accent: "text-pitch" },
+  { href: "/tactic-lab", label: "Pizarra Táctica", desc: "Diseña sistemas", icon: PenTool, accent: "text-pitch" },
   { href: "/quizzes", label: "Quizzes", desc: "Pon a prueba tu IQ", icon: Brain, accent: "text-sky-light" },
   { href: "/scenarios", label: "Escenarios", desc: "Toma decisiones", icon: GitBranch, accent: "text-gold" },
   { href: "/academy", label: "Academia", desc: "Aprende conceptos", icon: GraduationCap, accent: "text-pitch" },
@@ -55,7 +55,7 @@ export default function DashboardPage() {
       <div>
         <p className="text-sm text-muted">{greeting},</p>
         <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-          {user?.name ?? "Coach"} 👋
+          {user?.name ?? "Entrenador"} 👋
         </h1>
       </div>
 

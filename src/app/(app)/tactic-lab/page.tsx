@@ -21,7 +21,7 @@ function TacticLabInner() {
       <PageHeader
         badge={
           <Badge tone="pitch">
-            <PenTool className="h-3.5 w-3.5" /> Tactic Lab
+            <PenTool className="h-3.5 w-3.5" /> Pizarra Táctica
           </Badge>
         }
         title={initial ? initial.name : "Tu pizarra táctica"}

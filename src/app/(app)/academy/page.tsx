@@ -19,7 +19,7 @@ export default function AcademyPage() {
       <PageHeader
         badge={
           <Badge tone="pitch">
-            <GraduationCap className="h-3.5 w-3.5" /> Football Academy
+            <GraduationCap className="h-3.5 w-3.5" /> Academia
           </Badge>
         }
         title="Aprende los conceptos clave"

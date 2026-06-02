@@ -72,7 +72,7 @@ export default function ProfilePage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        badge={<Badge tone="gold">Coach Mode</Badge>}
+        badge={<Badge tone="gold">Modo Entrenador</Badge>}
         title="Tu perfil"
         subtitle="Tu progreso, rango y logros como entrenador."
         action={

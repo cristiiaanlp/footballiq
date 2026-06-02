@@ -98,7 +98,7 @@ export default function MyTacticsPage() {
           <div>
             <h2 className="text-lg font-bold">Aún no tienes tácticas</h2>
             <p className="mt-1 text-sm text-muted">
-              Diseña tu primera jugada en el Tactic Lab y guárdala aquí.
+              Diseña tu primera jugada en la Pizarra Táctica y guárdala aquí.
             </p>
           </div>
           <Link href="/tactic-lab">

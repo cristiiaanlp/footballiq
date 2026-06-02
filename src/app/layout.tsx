@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Football IQ — Learn football like a coach",
+  title: "Football IQ — Aprende fútbol como un entrenador",
   description:
-    "Master tactics, systems and game reading interactively. The Chess.com of football.",
+    "Domina tácticas, sistemas y lectura de juego de forma interactiva.",
   applicationName: "Football IQ",
   keywords: ["football", "tactics", "coaching", "soccer IQ", "formations"],
   metadataBase: new URL("https://football-iq.app"),
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Football IQ — Aprende fútbol como un entrenador",
     description:
-      "Domina tácticas, sistemas y lectura de juego de forma interactiva. El Chess.com del fútbol.",
+      "Domina tácticas, sistemas y lectura de juego de forma interactiva.",
     type: "website",
     locale: "es_ES",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "Football IQ" }],

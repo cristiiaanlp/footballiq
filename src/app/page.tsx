@@ -51,11 +51,11 @@ export default function LandingPage() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-haze">
             Cada quiz, escenario y módulo te da XP. Empieza como{" "}
-            <b className="text-haze">Rookie Coach</b> y llega a{" "}
-            <b className="text-gradient">Tactical Master</b>.
+            <b className="text-haze">Entrenador Novato</b> y llega a{" "}
+            <b className="text-gradient">Maestro Táctico</b>.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
-            {["🥾 Rookie", "📋 Assistant", "📊 Analyst", "🎯 Manager", "🏆 Elite", "🧠 Master"].map(
+            {["🥾 Novato", "📋 Asistente", "📊 Analista", "🎯 Mánager", "🏆 Élite", "🧠 Maestro"].map(
               (r, i) => (
                 <motion.span
                   key={r}

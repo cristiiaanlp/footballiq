@@ -30,12 +30,12 @@ export function levelProgress(xp: number) {
 }
 
 export const RANKS: Rank[] = [
-  { name: "Rookie Coach", minLevel: 1, badge: "🥾", accent: "#9CA3AF" },
-  { name: "Assistant Coach", minLevel: 4, badge: "📋", accent: "#60A5FA" },
-  { name: "Analyst", minLevel: 8, badge: "📊", accent: "#3B82F6" },
-  { name: "Manager", minLevel: 14, badge: "🎯", accent: "#22C55E" },
-  { name: "Elite Coach", minLevel: 22, badge: "🏆", accent: "#FACC15" },
-  { name: "Tactical Master", minLevel: 32, badge: "🧠", accent: "#A855F7" },
+  { name: "Entrenador Novato", minLevel: 1, badge: "🥾", accent: "#9CA3AF" },
+  { name: "Entrenador Asistente", minLevel: 4, badge: "📋", accent: "#60A5FA" },
+  { name: "Analista", minLevel: 8, badge: "📊", accent: "#3B82F6" },
+  { name: "Mánager", minLevel: 14, badge: "🎯", accent: "#22C55E" },
+  { name: "Entrenador Élite", minLevel: 22, badge: "🏆", accent: "#FACC15" },
+  { name: "Maestro Táctico", minLevel: 32, badge: "🧠", accent: "#A855F7" },
 ];
 
 export function rankForLevel(level: number): Rank {
@@ -51,50 +51,50 @@ export function nextRank(level: number): Rank | null {
 export const ACHIEVEMENTS: Achievement[] = [
   {
     id: "first-steps",
-    title: "First Whistle",
-    description: "Complete your first quiz.",
+    title: "Primer Pitido",
+    description: "Completa tu primer quiz.",
     icon: "Flag",
     test: (s) => s.quizzesCompleted >= 1,
   },
   {
     id: "sharp-eye",
-    title: "Sharp Eye",
-    description: "Score 5 perfect quizzes.",
+    title: "Ojo Clínico",
+    description: "Consigue 5 quizzes perfectos.",
     icon: "Eye",
     test: (s) => s.perfectQuizzes >= 5,
   },
   {
     id: "tactician",
-    title: "Tactician",
-    description: "Save 3 tactics in the Lab.",
+    title: "Táctico",
+    description: "Guarda 3 tácticas en la pizarra.",
     icon: "PenTool",
     test: (s) => s.tacticsSaved >= 3,
   },
   {
     id: "scholar",
-    title: "Scholar",
-    description: "Finish 3 academy modules.",
+    title: "Estudioso",
+    description: "Termina 3 módulos de la academia.",
     icon: "GraduationCap",
     test: (s) => s.modulesCompleted >= 3,
   },
   {
     id: "on-fire",
-    title: "On Fire",
-    description: "Reach a 7-day streak.",
+    title: "En Racha",
+    description: "Llega a una racha de 7 días.",
     icon: "Flame",
     test: (s) => s.streak >= 7,
   },
   {
     id: "decision-maker",
-    title: "Decision Maker",
-    description: "Solve 10 match scenarios.",
+    title: "Decisivo",
+    description: "Resuelve 10 escenarios de partido.",
     icon: "GitBranch",
     test: (s) => s.scenariosCompleted >= 10,
   },
   {
     id: "manager-mind",
-    title: "Manager Mind",
-    description: "Reach the Manager rank.",
+    title: "Mente de Mánager",
+    description: "Alcanza el rango de Mánager.",
     icon: "Trophy",
     test: (s) => s.level >= 14,
   },

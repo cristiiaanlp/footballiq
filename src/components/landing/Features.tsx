@@ -15,7 +15,7 @@ import {
 const FEATURES = [
   {
     icon: PenTool,
-    title: "Tactic Lab",
+    title: "Pizarra Táctica",
     desc: "Pizarra interactiva: mueve jugadores, dibuja flechas, crea sistemas y expórtalos.",
     accent: "text-pitch",
   },
@@ -27,31 +27,31 @@ const FEATURES = [
   },
   {
     icon: GitBranch,
-    title: "Match Scenarios",
+    title: "Escenarios de partido",
     desc: "Situaciones reales de partido. ¿Cuál es la mejor decisión? Decide y descúbrelo.",
     accent: "text-gold",
   },
   {
     icon: GraduationCap,
-    title: "Football Academy",
+    title: "Academia",
     desc: "Módulos visuales y animados: transiciones, amplitud, tercer hombre, bloques.",
     accent: "text-pitch",
   },
   {
     icon: Trophy,
-    title: "Coach Mode",
-    desc: "XP, niveles, rangos y logros. De Rookie Coach a Tactical Master.",
+    title: "Modo Entrenador",
+    desc: "XP, niveles, rangos y logros. De Entrenador Novato a Maestro Táctico.",
     accent: "text-gold",
   },
   {
     icon: Flame,
     title: "Retos diarios",
-    desc: "Un reto nuevo cada día, rachas y ranking. Vuelve, mejora, mantén tu streak.",
+    desc: "Un reto nuevo cada día, rachas y ranking. Vuelve, mejora y mantén tu racha.",
     accent: "text-danger",
   },
   {
     icon: LayoutGrid,
-    title: "Formation Explorer",
+    title: "Formaciones",
     desc: "Explora 4-3-3, 4-4-2, 3-5-2… con fortalezas, debilidades y usos reales.",
     accent: "text-sky-light",
   },
