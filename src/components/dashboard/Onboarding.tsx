@@ -78,7 +78,7 @@ export function Onboarding() {
         >
           <div className="absolute inset-0 bg-ink-900/80 backdrop-blur-sm" />
           <motion.div
-            className="glass-strong relative z-10 w-full max-w-md rounded-3xl p-6 text-center shadow-glass sm:p-8"
+            className="glass-strong relative z-10 max-h-[90vh] w-full max-w-md overflow-y-auto rounded-3xl p-6 text-center shadow-glass sm:p-8"
             initial={{ scale: 0.92, y: 16 }}
             animate={{ scale: 1, y: 0 }}
           >

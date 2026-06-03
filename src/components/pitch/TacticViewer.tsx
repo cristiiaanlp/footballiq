@@ -83,7 +83,7 @@ export function TacticViewer({ tactic }: { tactic: SavedTactic }) {
 
   return (
     <div>
-      <Pitch className="text-[clamp(9px,3.2vw,16px)]">
+      <Pitch className="text-[clamp(11px,3.8vw,16px)]">
         <svg viewBox="0 0 200 300" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full">
           <defs>
             {ARROW_COLORS.map((c) => (

@@ -35,7 +35,7 @@ export function Modal({
             onClick={onClose}
           />
           <motion.div
-            className="glass-strong relative z-10 w-full max-w-sm rounded-2xl p-5 shadow-glass"
+            className="glass-strong relative z-10 max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-2xl p-5 shadow-glass"
             initial={{ scale: 0.95, y: 12 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 12 }}

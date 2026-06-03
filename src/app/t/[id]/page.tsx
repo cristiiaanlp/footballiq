@@ -74,7 +74,7 @@ export default function PublicTacticPage({ params }: { params: { id: string } })
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-white/5 bg-ink-900/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
           <Brand size={36} />
           <Link href="/register">
             <Button size="sm">
